@@ -7,7 +7,8 @@
           "browsers": ["last 2 versions"]
         }
       }
-    ]
+    ],
+    "react"
   ],
   "plugins": ["transform-class-properties"]
 }
