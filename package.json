@@ -27,7 +27,10 @@
     "prettier": "^1.14.2"
   },
   "dependencies": {
+    "@material-ui/core": "^3.3.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.4.2",
+    "react-tag-input": "^6.0.2"
   }
 }

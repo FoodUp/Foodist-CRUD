@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import RecipeForm from "./RecipeForm";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     return (
       <div>
-        <header>Hello foodist CRUD</header>
-        <h2>world</h2>
+        <header>Hello foodist CRUD </header>
+        <RecipeForm />
       </div>
     );
   }
