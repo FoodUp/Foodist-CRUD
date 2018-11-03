@@ -11,17 +11,24 @@ const styles = theme => ({
   }
 });
 
-const ImageUploader = ({ classes }) => {
+const ImageUploader = props => {
+  const { classes } = props;
   return (
     <div>
       <input
         accept="image/*"
         id="flat-button-file"
         type="file"
+        multiple
         className={classes.input}
       />
       <label htmlFor="flat-button-file">
-        <Button className={classes.button} variant="contained" color="primary">
+        <Button
+          className={classes.button}
+          component="span"
+          variant="contained"
+          color="primary"
+        >
           Upload
         </Button>
       </label>
