@@ -15,14 +15,14 @@ const ImageUploader = props => {
   const { classes } = props;
   return (
     <div>
-      <input
-        accept="image/*"
-        id="flat-button-file"
-        type="file"
-        multiple
-        className={classes.input}
-      />
       <label htmlFor="flat-button-file">
+        <input
+          accept="image/*"
+          id="flat-button-file"
+          type="file"
+          multiple
+          className={classes.input}
+        />
         <Button
           className={classes.button}
           component="span"
