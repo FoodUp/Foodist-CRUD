@@ -8,35 +8,38 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
+import Button from "@material-ui/core/Button";
 
 const KeyCodes = {
   comma: 188,
   enter: 13
 };
-const timeUnit = ["min", "hour"];
+const timeUnit = { min: "min", hour: "hour" };
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
+const suggestions = [
+  { id: "1", text: "vegan" },
+  { id: "2", text: "fast" },
+  { id: "3", text: "fastfood" }
+];
 
 class RecipeForm extends React.Component {
   state = {
     name: "",
     description: "",
     person: "",
-    time: { amount: 0, unit: "min" },
+    time: { amount: 0, unit: timeUnit.min },
     type: "",
     tags: [],
-    suggestions: [
-      { id: "1", text: "vegan" },
-      { id: "2", text: "fast" },
-      { id: "3", text: "fastfood" }
-    ],
     tools: [],
-    uploadedImage: "",
-    imagePreviewUrl: "",
+    image: null,
     ingredients: [],
     steps: []
   };
   handleFieldChange = name => e => {
     this.setState({ [name]: e.target.value });
+  };
+  handleImageChange = file => {
+    this.setState({ image: file });
   };
   handleTimeChange = key => e => {
     const timeObj = Object.assign(this.state.time, { [key]: e.target.value });
@@ -77,19 +80,16 @@ class RecipeForm extends React.Component {
     ];
     this.setState({ steps: newSteps });
   };
-  handleSubmit = () => {
-    // TODO: form validation, post form
-  };
-  handleDelete = i => {
+  handleTagDelete = i => {
     const { tags } = this.state;
     this.setState({
       tags: tags.filter((tag, index) => index !== i)
     });
   };
-  handleAddition = tag => {
+  handleTagAddition = tag => {
     this.setState(state => ({ tags: [...state.tags, tag] }));
   };
-  handleDrag = (tag, currPos, newPos) => {
+  handleTagDrag = (tag, currPos, newPos) => {
     const tags = [...this.state.tags];
     const newTags = tags.slice();
 
@@ -99,6 +99,34 @@ class RecipeForm extends React.Component {
     // re-render
     this.setState({ tags: newTags });
   };
+  getFormData = () => {
+    const transFormedData = Object.assign(this.state, {
+      time: this.transformedTime()
+    });
+    const formData = new FormData();
+    Object.key(transFormedData).map(key => {
+      formData.append(key, transFormedData[key]);
+    });
+    return formData;
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    // TODO: form validation, post form
+
+    setTimeout(() => {
+      // fetch(process.env.API_URL);
+      console.log(this.state, process.env.API_URL);
+    }, 1000);
+  };
+  transformTime() {
+    let timeObj = Object.assign({}, this.state.time);
+    timeObj =
+      timeObj.unit === timeUnit.hour
+        ? { amount: timeObj.amount * 60, unit: timeUnit.min }
+        : timeObj;
+    return timeObj;
+  }
+
   render() {
     return (
       <form
@@ -160,7 +188,7 @@ class RecipeForm extends React.Component {
             value={this.state.time.unit}
             onChange={this.handleTimeChange("unit")}
           >
-            {timeUnit.map(option => (
+            {Object.values(timeUnit).map(option => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -173,15 +201,15 @@ class RecipeForm extends React.Component {
           <ReactTags
             autocomplete={1}
             tags={this.state.tags}
-            suggestions={this.state.suggestions}
-            handleDelete={this.handleDelete}
-            handleAddition={this.handleAddition}
-            handleDrag={this.handleDrag}
+            suggestions={suggestions}
+            handleDelete={this.handleTagDelete}
+            handleAddition={this.handleTagAddition}
+            handleDrag={this.handleTagDrag}
             delimiters={delimiters}
           />
         </label>
 
-        <ImageUploader />
+        <ImageUploader handleImageChange={this.handleImageChange} />
         <br />
 
         <FormLabel>
@@ -208,7 +236,7 @@ class RecipeForm extends React.Component {
           createStepItem={this.createStepItem}
           deleteStepItemAtIdx={this.deleteStepItemAtIdx}
         />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     );
   }

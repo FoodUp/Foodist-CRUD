@@ -24,6 +24,7 @@ class ImageUploader extends React.Component {
       this.setState({ imagePreviewUrl: fileReader.result });
     };
     fileReader.readAsDataURL(e.target.files[0]);
+    this.props.handleImageChange(e.target.files[0]);
   };
 
   render() {
@@ -58,6 +59,7 @@ class ImageUploader extends React.Component {
   }
 }
 ImageUploader.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  handleImageChange: PropTypes.func
 };
 export default withStyles(styles)(ImageUploader);
