@@ -80,15 +80,6 @@ class RecipeForm extends React.Component {
   handleSubmit = () => {
     // TODO: form validation, post form
   };
-  handleImageUpload = e => {
-    let fileReader = new FileReader();
-    //update state imagePreviewUrl
-    fileReader.onloadend = () => {
-      this.setState({ imagePreviewUrl: fileReader.result });
-    };
-    fileReader.readAsDataURL(e.target.files[0]);
-    this.setState({ uploadedImage: e.target.files[0] });
-  };
   handleDelete = i => {
     const { tags } = this.state;
     this.setState({
@@ -109,11 +100,6 @@ class RecipeForm extends React.Component {
     this.setState({ tags: newTags });
   };
   render() {
-    const imagePreviewer = this.state.imagePreviewUrl ? (
-      <img height="200" src={this.state.imagePreviewUrl} alt="preview" />
-    ) : (
-      ""
-    );
     return (
       <form
         action=""
@@ -196,12 +182,8 @@ class RecipeForm extends React.Component {
         </label>
 
         <ImageUploader />
-        <label htmlFor="image">
-          Image :
-          <input type="file" name="image" onChange={this.handleImageUpload} />
-        </label>
-        {imagePreviewer}
         <br />
+
         <FormLabel>
           Tools
           <ToolsList
