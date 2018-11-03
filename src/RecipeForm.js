@@ -7,6 +7,8 @@ import StepsList from "./StepsList";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
+import ImageUploader from "./ImageUploader";
+
 const KeyCodes = {
   comma: 188,
   enter: 13
@@ -85,6 +87,7 @@ class RecipeForm extends React.Component {
       this.setState({ imagePreviewUrl: fileReader.result });
     };
     fileReader.readAsDataURL(e.target.files[0]);
+    this.setState({ uploadedImage: e.target.files[0] });
   };
   handleDelete = i => {
     const { tags } = this.state;
@@ -192,6 +195,7 @@ class RecipeForm extends React.Component {
           />
         </label>
 
+        <ImageUploader />
         <label htmlFor="image">
           Image :
           <input type="file" name="image" onChange={this.handleImageUpload} />
