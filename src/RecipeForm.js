@@ -1,4 +1,5 @@
 import React from "react";
+import path from "path";
 import IngredientsList from "./IngredientsList";
 import ToolsList from "./ToolsList";
 import { WithContext as ReactTags } from "react-tag-input";
@@ -113,21 +114,15 @@ class RecipeForm extends React.Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    // TODO: form validation, post form
-    for (const value of this.getFormData().values()) {
-      console.log(value);
-    }
-    // setTimeout(() => {
-    //   fetch(process.env.API_URL, {
-    //     method: "POST",
-    //     body: this.getFormData()
-    //   })
-    //     .then(res => res.json())
-    //     .then(response => {
-    //       console.log(JSON.stringify(response));
-    //     });
-    //   console.log(this.state, process.env.API_URL);
-    // }, 1000);
+    fetch(config.API_URL + "/recipes", {
+      method: "POST",
+      body: this.getFormData()
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log(JSON.stringify(response));
+      })
+      .catch(err => console.log(err));
   };
   transformTag() {
     let tagArr = [...this.state.tags];
