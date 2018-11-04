@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import React from "react";
 import IngredientsList from "./IngredientsList";
 import ToolsList from "./ToolsList";
@@ -10,7 +11,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
 import Button from "@material-ui/core/Button";
 import config from "./config";
-import { objectToFormData } from "./utils";
 const KeyCodes = {
   comma: 188,
   enter: 13
@@ -118,17 +118,29 @@ class RecipeForm extends React.Component {
     try {
       const res = await fetch(config.API_URL + "/recipes", {
         method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json"
+        },
         body: JSON.stringify(this.getJsonData())
-      }).then(res => res.json());
+      }).then(async res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          const errMsg = await res.text();
+          alert(errMsg);
+        }
+      });
+      console.log(res);
 
-      await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
-        method: "POST",
-        body: this.getFormData()
-      })
-        .then(res => res.json())
-        .then(response => {
-          console.log(JSON.stringify(response));
-        });
+      // await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
+      //   method: "POST",
+      //   body: this.getFormData()
+      // })
+      //   .then(res => res.json())
+      //   .then(response => {
+      //     console.log(JSON.stringify(response));
+      //   });
     } catch (e) {
       console.log(e);
     }
