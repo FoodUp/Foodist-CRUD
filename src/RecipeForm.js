@@ -100,25 +100,38 @@ class RecipeForm extends React.Component {
     // re-render
     this.setState({ tags: newTags });
   };
-  getFormData = () => {
-    const transFormedData = Object.assign(this.state, {
+  getJsonData = () => {
+    const transFormedData = Object.assign({}, this.state, {
       time: this.transformTime(),
       tags: this.transformTag()
     });
-    const formData = objectToFormData(transFormedData);
+    delete transFormedData.image;
+    return transFormedData;
+  };
+  getFormData = () => {
+    const formData = new FormData();
+    formData.append("image", this.state.image);
     return formData;
   };
-  handleSubmit = e => {
+  handleSubmit = async e => {
     e.preventDefault();
-    fetch(config.API_URL + "/recipes", {
-      method: "POST",
-      body: this.getFormData()
-    })
-      .then(res => res.json())
-      .then(response => {
-        console.log(JSON.stringify(response));
+    try {
+      const res = await fetch(config.API_URL + "/recipes", {
+        method: "POST",
+        body: JSON.stringify(this.getJsonData())
+      }).then(res => res.json());
+
+      await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
+        method: "POST",
+        body: this.getFormData()
       })
-      .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(response => {
+          console.log(JSON.stringify(response));
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
   transformTag() {
     let tagArr = [...this.state.tags];
