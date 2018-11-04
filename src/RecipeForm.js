@@ -1,5 +1,4 @@
 import React from "react";
-import path from "path";
 import IngredientsList from "./IngredientsList";
 import ToolsList from "./ToolsList";
 import { WithContext as ReactTags } from "react-tag-input";
@@ -11,7 +10,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
 import Button from "@material-ui/core/Button";
 import config from "./config";
-
+import { objectToFormData } from "./utils";
 const KeyCodes = {
   comma: 188,
   enter: 13
@@ -106,10 +105,7 @@ class RecipeForm extends React.Component {
       time: this.transformTime(),
       tags: this.transformTag()
     });
-    const formData = new FormData();
-    Object.keys(transFormedData).map(key => {
-      formData.append(key, transFormedData[key]);
-    });
+    const formData = objectToFormData(transFormedData);
     return formData;
   };
   handleSubmit = e => {
