@@ -1,10 +1,5 @@
 const config = {
-  A: process.env.A,
-  B: process.env.B,
-  C: process.env.C
+  API_URL: process.env.API_URL
 };
-
-console.log(process.env);
-console.log(config);
 
 export default config;

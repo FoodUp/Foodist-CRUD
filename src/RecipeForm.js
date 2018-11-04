@@ -9,6 +9,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
 import Button from "@material-ui/core/Button";
+import config from "./config";
 
 const KeyCodes = {
   comma: 188,
@@ -101,10 +102,11 @@ class RecipeForm extends React.Component {
   };
   getFormData = () => {
     const transFormedData = Object.assign(this.state, {
-      time: this.transformedTime()
+      time: this.transformTime(),
+      tags: this.transformTag()
     });
     const formData = new FormData();
-    Object.key(transFormedData).map(key => {
+    Object.keys(transFormedData).map(key => {
       formData.append(key, transFormedData[key]);
     });
     return formData;
@@ -112,12 +114,26 @@ class RecipeForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     // TODO: form validation, post form
-
-    setTimeout(() => {
-      // fetch(process.env.API_URL);
-      console.log(this.state, process.env.API_URL);
-    }, 1000);
+    for (const value of this.getFormData().values()) {
+      console.log(value);
+    }
+    // setTimeout(() => {
+    //   fetch(process.env.API_URL, {
+    //     method: "POST",
+    //     body: this.getFormData()
+    //   })
+    //     .then(res => res.json())
+    //     .then(response => {
+    //       console.log(JSON.stringify(response));
+    //     });
+    //   console.log(this.state, process.env.API_URL);
+    // }, 1000);
   };
+  transformTag() {
+    let tagArr = [...this.state.tags];
+    tagArr = tagArr.map(ele => ele.text);
+    return tagArr;
+  }
   transformTime() {
     let timeObj = Object.assign({}, this.state.time);
     timeObj =
