@@ -256,32 +256,26 @@ class RecipeForm extends React.Component {
             <ImageUploader handleImageChange={this.handleImageChange} />
           </FormLabel>
           <br />
-          <FormLabel>
-            Tools
-            <ToolsList
-              items={this.state.tools}
-              createToolItem={this.createToolItem}
-              deleteToolItemAtIdx={this.deleteToolItemAtIdx}
-            />
-          </FormLabel>
+          <FormLabel>Tools</FormLabel>
+          <ToolsList
+            items={this.state.tools}
+            createToolItem={this.createToolItem}
+            deleteToolItemAtIdx={this.deleteToolItemAtIdx}
+          />
           <br />
-          <FormLabel>
-            Ingredients
-            <IngredientsList
-              items={this.state.ingredients}
-              createIngredientItem={this.createIngredientItem}
-              deleteIngredientItemAtIdx={this.deleteIngredientItemAtIdx}
-            />
-          </FormLabel>
+          <FormLabel>Ingredients</FormLabel>
+          <IngredientsList
+            items={this.state.ingredients}
+            createIngredientItem={this.createIngredientItem}
+            deleteIngredientItemAtIdx={this.deleteIngredientItemAtIdx}
+          />
           <br />
-          <FormLabel>
-            Steps
-            <StepsList
-              items={this.state.steps}
-              createStepItem={this.createStepItem}
-              deleteStepItemAtIdx={this.deleteStepItemAtIdx}
-            />
-          </FormLabel>
+          <FormLabel>Steps</FormLabel>
+          <StepsList
+            items={this.state.steps}
+            createStepItem={this.createStepItem}
+            deleteStepItemAtIdx={this.deleteStepItemAtIdx}
+          />
           <br />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit

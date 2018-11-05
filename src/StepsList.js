@@ -2,6 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import NewStepItem from "./NewStepItem";
 import StepItem from "./StepItem";
+import List from "@material-ui/core/List";
 class StepsList extends React.Component {
   render() {
     const itemsList = this.props.items.map((item, idx) => {
@@ -16,7 +17,7 @@ class StepsList extends React.Component {
     });
     return (
       <div>
-        {itemsList}
+        <List>{itemsList}</List>
         <NewStepItem newItem={this.props.createStepItem} />
       </div>
     );

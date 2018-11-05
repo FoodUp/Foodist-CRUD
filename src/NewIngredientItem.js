@@ -28,7 +28,7 @@ class NewIngredientItem extends React.Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    if (this.state.name.trim() !== "" && this.state.amount.trim() !== "") {
+    if (this.state.name.trim() !== "") {
       this.props.newItem(this.state.name, this.state.amount, this.state.unit);
       this.setState({ name: "", amount: "", unit: "" });
     }
@@ -38,12 +38,12 @@ class NewIngredientItem extends React.Component {
       <div>
         <FormGroup row={true}>
           <MyTextField
+            required
             label="Name"
             value={this.state.name}
             onChange={this.onFieldChange("name")}
           />
           <MyTextField
-            type="number"
             label="Amount"
             value={this.state.amount}
             onChange={this.onFieldChange("amount")}

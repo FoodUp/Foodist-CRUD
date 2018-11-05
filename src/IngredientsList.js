@@ -2,6 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import NewIngredientItem from "./NewIngredientItem";
 import IngredientItem from "./IngredientItem";
+import List from "@material-ui/core/List";
 
 class IngredientsList extends React.Component {
   render() {
@@ -17,7 +18,7 @@ class IngredientsList extends React.Component {
     });
     return (
       <div>
-        {itemsList}
+        <List>{itemsList}</List>
         <NewIngredientItem newItem={this.props.createIngredientItem} />
       </div>
     );
