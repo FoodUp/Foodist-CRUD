@@ -11,6 +11,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
 import Button from "@material-ui/core/Button";
 import config from "./config";
+import Container from "./Container";
 const KeyCodes = {
   comma: 188,
   enter: 13
@@ -131,8 +132,6 @@ class RecipeForm extends React.Component {
           alert(errMsg);
         }
       });
-      console.log(res);
-
       // await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
       //   method: "POST",
       //   body: this.getFormData()
@@ -142,7 +141,7 @@ class RecipeForm extends React.Component {
       //     console.log(JSON.stringify(response));
       //   });
     } catch (e) {
-      console.log(e);
+      console.log("error", e);
     }
   };
   transformTag() {
@@ -161,115 +160,131 @@ class RecipeForm extends React.Component {
 
   render() {
     return (
-      <form
-        action=""
-        onSubmit={this.handleSubmit}
-        noValidate
-        autoComplete="off"
-      >
-        <MyTextField
-          required
-          label="Name"
-          value={this.state.name}
-          InputLabelProps={{
-            shrink: true
-          }}
-          onChange={this.handleFieldChange("name")}
-        />
-        <MyTextField
-          required
-          label="Description"
-          value={this.state.description}
-          onChange={this.handleFieldChange("description")}
-          multiline={true}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <MyTextField
-          type="number"
-          label="Numbers of Person"
-          value={this.state.person}
-          onChange={this.handleFieldChange("person")}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-
-        <MyTextField
-          label="Type"
-          value={this.state.type}
-          onChange={this.handleFieldChange("type")}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-
-        <FormGroup row={true}>
+      <Container>
+        <form
+          action=""
+          onSubmit={this.handleSubmit}
+          noValidate
+          autoComplete="off"
+        >
           <MyTextField
             required
+            label="Name"
+            value={this.state.name}
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={this.handleFieldChange("name")}
+          />
+          <MyTextField
+            required
+            label="Description"
+            value={this.state.description}
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={this.handleFieldChange("description")}
+            multiline={true}
+            fullWidth
+          />
+          <MyTextField
+            required
+            label="Color"
+            value={this.state.time.color}
+            onChange={this.handleFieldChange("color")}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+          <MyTextField
+            label="Type"
+            value={this.state.type}
+            onChange={this.handleFieldChange("type")}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+          <MyTextField
             type="number"
-            label="Time amount"
-            value={this.state.time.amount}
-            onChange={this.handleTimeChange("amount")}
+            label="Numbers of Person"
+            value={this.state.person}
+            onChange={this.handleFieldChange("person")}
+            InputLabelProps={{
+              shrink: true
+            }}
           />
-          <MyTextField
-            required
-            label="Time unit"
-            select
-            value={this.state.time.unit}
-            onChange={this.handleTimeChange("unit")}
-          >
-            {Object.values(timeUnit).map(option => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </MyTextField>
-        </FormGroup>
 
-        <label htmlFor="tag">
-          tag:{" "}
-          <ReactTags
-            autocomplete={1}
-            tags={this.state.tags}
-            suggestions={suggestions}
-            handleDelete={this.handleTagDelete}
-            handleAddition={this.handleTagAddition}
-            handleDrag={this.handleTagDrag}
-            delimiters={delimiters}
-          />
-        </label>
+          <FormGroup row={true}>
+            <MyTextField
+              required
+              type="number"
+              label="Time amount"
+              value={this.state.time.amount}
+              onChange={this.handleTimeChange("amount")}
+            />
+            <MyTextField
+              label="Time unit"
+              select
+              value={this.state.time.unit}
+              onChange={this.handleTimeChange("unit")}
+            >
+              {Object.values(timeUnit).map(option => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </MyTextField>
+          </FormGroup>
 
-        <ImageUploader handleImageChange={this.handleImageChange} />
-        <br />
-
-        <FormLabel>
-          Tools
-          <ToolsList
-            items={this.state.tools}
-            createToolItem={this.createToolItem}
-            deleteToolItemAtIdx={this.deleteToolItemAtIdx}
-          />
-        </FormLabel>
-        <MyTextField
-          label="Color"
-          value={this.state.time.color}
-          onChange={this.handleFieldChange("color")}
-        />
-
-        <IngredientsList
-          items={this.state.ingredients}
-          createIngredientItem={this.createIngredientItem}
-          deleteIngredientItemAtIdx={this.deleteIngredientItemAtIdx}
-        />
-        <StepsList
-          items={this.state.steps}
-          createStepItem={this.createStepItem}
-          deleteStepItemAtIdx={this.deleteStepItemAtIdx}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
+          <label htmlFor="tag">
+            tag:{" "}
+            <ReactTags
+              autocomplete={1}
+              tags={this.state.tags}
+              suggestions={suggestions}
+              handleDelete={this.handleTagDelete}
+              handleAddition={this.handleTagAddition}
+              handleDrag={this.handleTagDrag}
+              delimiters={delimiters}
+            />
+          </label>
+          <FormLabel>
+            Recipe Cover Image
+            <ImageUploader handleImageChange={this.handleImageChange} />
+          </FormLabel>
+          <br />
+          <FormLabel>
+            Tools
+            <ToolsList
+              items={this.state.tools}
+              createToolItem={this.createToolItem}
+              deleteToolItemAtIdx={this.deleteToolItemAtIdx}
+            />
+          </FormLabel>
+          <br />
+          <FormLabel>
+            Ingredients
+            <IngredientsList
+              items={this.state.ingredients}
+              createIngredientItem={this.createIngredientItem}
+              deleteIngredientItemAtIdx={this.deleteIngredientItemAtIdx}
+            />
+          </FormLabel>
+          <br />
+          <FormLabel>
+            Steps
+            <StepsList
+              items={this.state.steps}
+              createStepItem={this.createStepItem}
+              deleteStepItemAtIdx={this.deleteStepItemAtIdx}
+            />
+          </FormLabel>
+          <br />
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Submit
+          </Button>
+        </form>
+      </Container>
     );
   }
 }

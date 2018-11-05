@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import RecipeForm from "./RecipeForm";
 
 class App extends React.Component {
+  //TODO: react router : newRecipe, showAllRecipe, editOneRecipe
   render() {
     return (
       <div>
-        <header>Hello foodist CRUD </header>
         <RecipeForm />
       </div>
     );

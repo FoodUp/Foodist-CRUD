@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import { relative } from "path";
 
 const styles = theme => ({
   button: {
@@ -9,6 +10,21 @@ const styles = theme => ({
   },
   input: {
     display: "none"
+  },
+  imageDiv: {
+    position: "relative",
+    borderRadius: 5,
+    width: 400,
+    height: 200,
+    background: "#eee",
+    textAlign: "center",
+    boxSizing: "border-box"
+  },
+  imageWrapper: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
   }
 });
 
@@ -18,24 +34,29 @@ class ImageUploader extends React.Component {
   };
 
   handleImageUpload = e => {
-    let fileReader = new FileReader();
-    //update state imagePreviewUrl
-    fileReader.onloadend = () => {
-      this.setState({ imagePreviewUrl: fileReader.result });
-    };
-    fileReader.readAsDataURL(e.target.files[0]);
-    this.props.handleImageChange(e.target.files[0]);
+    if (e.target.files[0]) {
+      let fileReader = new FileReader();
+      //update state imagePreviewUrl
+      fileReader.onloadend = () => {
+        this.setState({ imagePreviewUrl: fileReader.result });
+      };
+      fileReader.readAsDataURL(e.target.files[0]);
+      this.props.handleImageChange(e.target.files[0]);
+    }
   };
 
   render() {
     const { classes } = this.props;
     const imagePreviewer = this.state.imagePreviewUrl ? (
-      <img height="100" src={this.state.imagePreviewUrl} alt="preview" />
+      <img height="150" src={this.state.imagePreviewUrl} alt="preview" />
     ) : (
-      ""
+      "No image"
     );
     return (
       <div>
+        <div className={classes.imageDiv}>
+          <div className={classes.imageWrapper}>{imagePreviewer}</div>
+        </div>
         <label htmlFor="flat-button-file">
           <input
             accept="image/*"
@@ -47,12 +68,11 @@ class ImageUploader extends React.Component {
           <Button
             className={classes.button}
             component="span"
-            variant="contained"
+            variant="outlined"
             color="primary"
           >
             Upload
           </Button>
-          {imagePreviewer}
         </label>
       </div>
     );

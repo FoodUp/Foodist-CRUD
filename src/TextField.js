@@ -4,18 +4,15 @@ import React from "react";
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: theme.spacing.unit,
     display: "block",
-    width: 200
+    minWidth: 150
   }
 });
 
 let MyTextField = props => {
   const { classes, ...otherProps } = props;
-  return (
-    <TextField className={classes.textField} {...otherProps} margin="normal" />
-  );
+  return <TextField className={classes.textField} {...otherProps} />;
 };
 
 MyTextField = withStyles(styles)(MyTextField);
