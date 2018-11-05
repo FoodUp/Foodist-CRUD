@@ -132,14 +132,16 @@ class RecipeForm extends React.Component {
           alert(errMsg);
         }
       });
-      // await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
-      //   method: "POST",
-      //   body: this.getFormData()
-      // })
-      //   .then(res => res.json())
-      //   .then(response => {
-      //     console.log(JSON.stringify(response));
-      //   });
+      if (res) {
+        await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
+          method: "POST",
+          body: this.getFormData()
+        })
+          .then(res => res.json())
+          .then(response => {
+            console.log(JSON.stringify(response));
+          });
+      }
     } catch (e) {
       console.log("error", e);
     }
@@ -174,6 +176,7 @@ class RecipeForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
+            fullWidth
             onChange={this.handleFieldChange("name")}
           />
           <MyTextField
