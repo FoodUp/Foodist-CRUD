@@ -1,5 +1,6 @@
 import React from "react";
 import config from "./config";
+import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -9,8 +10,14 @@ import Container from "./Container";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
-import { Link } from "react-router-dom";
+import Switch from "@material-ui/core/Switch";
+import { withStyles } from "@material-ui/core/styles";
 
+const style = {
+  listItemText: {
+    width: "calc(100% - 120px)"
+  }
+};
 class RecipeList extends React.Component {
   state = {
     recipes: []
@@ -35,26 +42,41 @@ class RecipeList extends React.Component {
       })
       .catch(err => console.log(err));
   }
+  handleToggle = idx => e => {
+    const checked = e.target.checkeded;
+    const newRecipes = [...this.state.recipes];
+    if (newRecipes[idx].online !== checked) {
+      newRecipes[idx].online = !newRecipes[idx].online;
+      this.setState({ recipes: newRecipes });
+      //TODO: call api to update online
+    }
+  };
   render() {
     // TODO: render all recipes: basic info
     // TODO: active, remove, edit recipe
     return (
       <Container>
         <Typography variant="h5">All Recipes</Typography>
-        <List>
-          {this.state.recipes.map(obj => (
-            <ListItem key={obj._id} button>
+        <List dense>
+          {this.state.recipes.map((obj, idx) => (
+            <ListItem key={obj._id} className={this.props.classes.listItemText}>
               <Avatar
                 alt={obj.name}
                 src={`${config.API_URL}/recipe/image/${obj.image}`}
               />
               <ListItemText primary={obj.name} secondary={obj.description} />
               <ListItemSecondaryAction>
+                <Switch
+                  color="primary"
+                  onChange={this.handleToggle(idx)}
+                  checked={obj.online}
+                />
                 <Link to={`/edit/${obj._id}`}>
                   <IconButton aria-label="Edit">
                     <Icon>edit_icon</Icon>
                   </IconButton>
                 </Link>
+
                 <IconButton color="secondary" aria-label="Delete">
                   <Icon>delete_icon</Icon>
                 </IconButton>
@@ -67,4 +89,4 @@ class RecipeList extends React.Component {
   }
 }
 
-export default RecipeList;
+export default withStyles(style)(RecipeList);
