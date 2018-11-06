@@ -52,8 +52,6 @@ class RecipeList extends React.Component {
     }
   };
   render() {
-    // TODO: render all recipes: basic info
-    // TODO: active, remove, edit recipe
     return (
       <Container>
         <Typography variant="h5">All Recipes</Typography>
