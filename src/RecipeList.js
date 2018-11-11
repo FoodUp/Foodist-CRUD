@@ -58,10 +58,7 @@ class RecipeList extends React.Component {
         <List dense>
           {this.state.recipes.map((obj, idx) => (
             <ListItem key={obj._id} className={this.props.classes.listItemText}>
-              <Avatar
-                alt={obj.name}
-                src={`${config.API_URL}/recipe/image/${obj.image}`}
-              />
+              <Avatar alt={obj.name} src={obj.image} />
               <ListItemText primary={obj.name} secondary={obj.description} />
               <ListItemSecondaryAction>
                 <Switch
