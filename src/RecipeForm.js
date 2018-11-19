@@ -133,14 +133,16 @@ class RecipeForm extends React.Component {
         }
       });
       if (res) {
-        await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
-          method: "POST",
-          body: this.getFormData()
-        })
-          .then(res => res.json())
-          .then(response => {
-            console.log(JSON.stringify(response));
-          });
+        if (this.state.image) {
+          await fetch(`${config.API_URL}/recipes/${res._id}/image`, {
+            method: "POST",
+            body: this.getFormData()
+          })
+            .then(res => res.json())
+            .then(response => {
+              console.log(JSON.stringify(response));
+            });
+        }
       }
     } catch (e) {
       console.log("error", e);
