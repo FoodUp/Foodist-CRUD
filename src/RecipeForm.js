@@ -1,7 +1,11 @@
 import "babel-polyfill";
 import React from "react";
+import config from "./config";
+
+import Container from "./Container";
 import IngredientsList from "./IngredientsList";
 import ToolsList from "./ToolsList";
+
 import { WithContext as ReactTags } from "react-tag-input";
 import MyTextField from "./TextField";
 import StepsList from "./StepsList";
@@ -10,8 +14,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import ImageUploader from "./ImageUploader";
 import Button from "@material-ui/core/Button";
-import config from "./config";
-import Container from "./Container";
+
 const KeyCodes = {
   comma: 188,
   enter: 13
@@ -195,7 +198,7 @@ class RecipeForm extends React.Component {
           <MyTextField
             required
             label="Color"
-            value={this.state.time.color}
+            value={this.state.color}
             onChange={this.handleFieldChange("color")}
             InputLabelProps={{
               shrink: true
